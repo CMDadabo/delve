@@ -5,7 +5,6 @@ using UnityEngine;
 public class Pathfinder : MonoBehaviour {
 
 	private List<Vector2> currentPath;
-	private BoardManager boardManager;
 	private GameObject[,] terrainArray;
 
 	public class Node {
@@ -43,10 +42,14 @@ public class Pathfinder : MonoBehaviour {
 
 	public List<Vector2> FindPath (Vector2 start, Vector2 end)
 	{
+
 		List<Node> openNodes = new List<Node> ();
 		List<Node> closedNodes = new List<Node> ();
 		Node currentNode;
-		terrainArray = boardManager.terrainArray;
+
+		if( !terrainArray[ (int)end.y, (int)end.x ].GetComponent<Tile>().passable ) {
+			return new List<Vector2>{ start };
+		}
 
 		openNodes.Add (new Node (start, 0, GuessDistanceToEnd (start, end)));
 
@@ -103,6 +106,6 @@ public class Pathfinder : MonoBehaviour {
 
 	void Start ()
 	{
-		boardManager = GameObject.Find ("BoardManager").GetComponent<BoardManager> ();
+		terrainArray = GameObject.Find ("GameManager").GetComponent<GameManager> ().boardScript.terrainArray;
 	}
 }

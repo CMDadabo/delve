@@ -6,12 +6,12 @@ public class Unit : MonoBehaviour {
 
 	public int speed; // ft/sec
 
-	protected BoardManager boardManager;
 	protected Pathfinder pathfinder;
+	protected BoardManager boardManager;
 
 	// Use this for initialization
-	protected virtual void Start () {
-		boardManager = GameObject.Find("BoardManager").GetComponent<BoardManager>();
+	protected virtual void Awake () {
+		boardManager = GameManager.instance.boardScript;
 		pathfinder = GetComponent<Pathfinder>();
 	}
 
