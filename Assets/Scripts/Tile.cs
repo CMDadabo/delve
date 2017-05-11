@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : MonoBehaviour {
+public class Tile : MonoBehaviour
+{
 
-	public bool passable;
+    public bool passable;
 
-	protected SpriteRenderer spriteRenderer;
-	protected FOVManager fovManager;
-	protected bool visible;
+    protected SpriteRenderer spriteRenderer;
+    protected FOVManager fovManager;
+    protected bool visible;
 
-	void Start ()
-	{
-		spriteRenderer = gameObject.GetComponent<SpriteRenderer> ();
-		SetColor( Color.black );
-	}
+    void Start()
+    {
+        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        SetColor(Color.black);
+    }
 
-	public void SetColor (Color color) {
-		spriteRenderer.color = color;
-	}
+    public void SetColor(Color color)
+    {
+        spriteRenderer.color = color;
+    }
 }
