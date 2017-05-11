@@ -193,6 +193,13 @@ public class FOVManager : MonoBehaviour {
 		}
 
 	}
+	
+    public float GetBrightnessAt(Vector2 pos)
+    {
+        if (fovMap[(int)pos.y, (int)pos.x] == null)
+            return 0f;
+        return fovMap[(int)pos.y, (int)pos.x].brightness;
+    }
 
 	// Use this for initialization
 	void Start () {
