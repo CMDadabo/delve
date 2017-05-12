@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     public BoardManager boardScript;
     public FOVManager fovScript;
+    public UIManager uiScript;
     public GameObject player;
     public GameObject playerInstance;
     public GameObject enemy;

@@ -1,24 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using System;
 
 public class Player : Unit
 {
 
     public GameObject logLine;
-
-    void SetLogMessage(string msg)
-    {
-        Destroy(logLine);
-        logLine = Instantiate(GameManager.instance.logText, GameObject.Find("LogPanel").transform);
-        logLine.GetComponent<Text>().text = msg;
-        logLine.GetComponent<RectTransform>().localScale = new Vector3(1f, 1f, 1f);
-        logLine.GetComponent<RectTransform>().localPosition = new Vector2(0f, 0f);
-        logLine.GetComponent<RectTransform>().offsetMax = new Vector2(-10f, 26f);
-        logLine.GetComponent<RectTransform>().offsetMin = new Vector2(10f, 10f);
-    }
 
     void OnDrawGizmos()
     {
@@ -78,7 +64,7 @@ public class Player : Unit
         // In realtime mode, let the player move freely until they detect an enemy
         if (GameManager.instance.realtime)
         {
-            SetLogMessage("Realtime Mode");
+            UIManager.AddLogMessage("Realtime Mode", Color.green);
             List<GameObject> allEnemies = GameManager.instance.enemies;
             List<GameObject> combatants = new List<GameObject>();
             for (int i = 0; i < allEnemies.Count; i++)
@@ -118,7 +104,7 @@ public class Player : Unit
         }
         else
         {
-            SetLogMessage("Tactical Mode");
+            UIManager.AddLogMessage("Tactical Mode", Color.red);
         }
 
         if (!GameManager.instance.realtime && takingTurn)
