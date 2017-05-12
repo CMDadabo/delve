@@ -18,6 +18,9 @@ public class Player : Unit
 
     protected override void Awake()
     {
+        // Set stats
+        stats.hp = 20;
+
         fovManager = GameManager.instance.fovScript;
         base.Awake();
     }

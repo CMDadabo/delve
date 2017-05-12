@@ -87,4 +87,12 @@ public class Enemy : Unit
         }
 
     }
+
+    protected override void Awake()
+    {
+        // Set stats
+        stats.hp = 10;
+
+        base.Awake();
+    }
 }

@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct Stats
+{
+    public int hp;
+}
+
 public class Unit : MonoBehaviour
 {
 
     public int speed; // ft/sec
     public bool takingTurn;
+
+    public Stats stats;
 
     protected Pathfinder pathfinder;
     protected BoardManager boardManager;
