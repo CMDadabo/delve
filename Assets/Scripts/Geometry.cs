@@ -117,6 +117,9 @@ public static class Geometry
                     error = error + deltax;
                 }
             }
+        //Force pts to always be ordered from origin to target
+        if (pts[0] != origin)
+            pts.Reverse();
         return pts;
     }
 }
