@@ -45,10 +45,11 @@ public class GameManager : MonoBehaviour
 
     public void StartTacticalMode(List<GameObject> participants)
     {
+        uiScript.AddLogMessage("Entering Tactical Mode", new Color(0, 0, 50));
         realtime = false;
         combatOrder = participants;
         activeCombatant = 0;
-        participants[0].GetComponent<Unit>().takingTurn = true;
+        combatOrder[activeCombatant].GetComponent<Unit>().BeginTurn();
     }
 
     public void PassTurn()
@@ -56,11 +57,5 @@ public class GameManager : MonoBehaviour
         combatOrder[activeCombatant].GetComponent<Unit>().EndTurn();
         activeCombatant = (activeCombatant + 1) % combatOrder.Count;
         combatOrder[activeCombatant].GetComponent<Unit>().BeginTurn();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

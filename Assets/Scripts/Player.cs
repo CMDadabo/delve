@@ -22,7 +22,13 @@ public class Player : Unit
         stats.hp = 20;
 
         fovManager = GameManager.instance.fovScript;
+        uiManager = GameManager.instance.uiScript;
         base.Awake();
+    }
+
+    public override void BeginTurn() {
+        base.BeginTurn();
+        uiManager.AddLogMessage("It's your turn to move.", Color.black);
     }
 
     protected void TakeTurn()
@@ -67,7 +73,6 @@ public class Player : Unit
         // In realtime mode, let the player move freely until they detect an enemy
         if (GameManager.instance.realtime)
         {
-            UIManager.AddLogMessage("Realtime Mode", Color.green);
             List<GameObject> allEnemies = GameManager.instance.enemies;
             List<GameObject> combatants = new List<GameObject>();
             for (int i = 0; i < allEnemies.Count; i++)
@@ -104,10 +109,6 @@ public class Player : Unit
                 }
             }
 
-        }
-        else
-        {
-            UIManager.AddLogMessage("Tactical Mode", Color.red);
         }
 
         if (!GameManager.instance.realtime && takingTurn)

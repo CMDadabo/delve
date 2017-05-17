@@ -18,6 +18,7 @@ public class Unit : MonoBehaviour
     protected Pathfinder pathfinder;
     protected BoardManager boardManager;
     protected FOVManager fovManager;
+    protected UIManager uiManager;
     protected int movesRemaining;
     protected List<Vector2> currentPath;
     protected Vector2 moveTarget;
@@ -66,6 +67,7 @@ public class Unit : MonoBehaviour
     {
         boardManager = GameManager.instance.boardScript;
         fovManager = GameManager.instance.fovScript;
+        uiManager = GameManager.instance.uiScript;
         pathfinder = GetComponent<Pathfinder>();
         takingTurn = false;
     }

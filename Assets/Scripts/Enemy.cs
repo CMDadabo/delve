@@ -25,6 +25,11 @@ public class Enemy : Unit
         return target;
     }
 
+    public override void BeginTurn() {
+        base.BeginTurn();
+        uiManager.AddLogMessage("The enemy is moving.", Color.black);
+    }
+
     protected void TakeTurn()
     {
 
