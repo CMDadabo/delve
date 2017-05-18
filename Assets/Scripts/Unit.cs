@@ -48,7 +48,8 @@ public class Unit : MonoBehaviour
         return fovManager.GetBrightnessAt(transform.position);
     }
 
-    protected bool AdjacentTo(Unit unit) {
+    protected bool AdjacentTo(Unit unit)
+    {
         return Vector2.Distance(transform.position, unit.transform.position) < 2f;
     }
 
