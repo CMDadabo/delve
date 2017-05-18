@@ -25,14 +25,15 @@ public class Enemy : Unit
         return target;
     }
 
-    public override void BeginTurn() {
+    public override void BeginTurn()
+    {
         base.BeginTurn();
         uiManager.AddLogMessage("The enemy is moving.", Color.black);
     }
 
     protected void TakeTurn()
     {
-
+        // Move towards player if moves are remaining and not adjacent to the player
         if (currentPath == null)
         {
             var pathToPlayer = Geometry.DrawLine(transform.position, GameManager.instance.playerInstance.transform.position);
@@ -44,13 +45,14 @@ public class Enemy : Unit
         {
             transform.position = Vector2.MoveTowards(transform.position, moveTarget, 10f * Time.deltaTime);
         }
-        else if (currentPath.Count > 0)
+        else if (currentPath.Count > 0 && !AdjacentTo(GameManager.instance.playerInstance.GetComponent<Unit>()))
         {
             moveTarget = currentPath[0];
             currentPath.RemoveAt(0);
         }
         else
         {
+            uiManager.AddLogMessage("Enemy is next to Player and won't move.", Color.black);
             currentPath = null;
             GameManager.instance.PassTurn();
         }

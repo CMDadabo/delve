@@ -26,7 +26,8 @@ public class Player : Unit
         base.Awake();
     }
 
-    public override void BeginTurn() {
+    public override void BeginTurn()
+    {
         base.BeginTurn();
         uiManager.AddLogMessage("It's your turn to move.", Color.black);
     }
@@ -64,6 +65,50 @@ public class Player : Unit
         }
     }
 
+    protected void HandleRealtimePlayerMovement()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 currentCoords = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
+            currentPath = pathfinder.FindPath(currentCoords, boardManager.SnapMouseToGrid());
+            moveTarget = currentPath[currentPath.Count - 1];
+            currentPath.RemoveAt(currentPath.Count - 1);
+        }
+
+        if (currentPath != null)
+        {
+            if ((Vector2)transform.position != moveTarget)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, moveTarget, 10f * Time.deltaTime);
+            }
+            else if (currentPath.Count > 0)
+            {
+                moveTarget = currentPath[currentPath.Count - 1];
+                currentPath.RemoveAt(currentPath.Count - 1);
+            }
+        }
+    }
+
+    protected void CheckForDetectedEnemies()
+    {
+        List<GameObject> allEnemies = GameManager.instance.enemies;
+        List<GameObject> combatants = new List<GameObject>();
+        for (int i = 0; i < allEnemies.Count; i++)
+        {
+            if (Sees(allEnemies[i].GetComponent<Unit>()))
+            {
+                combatants.Add(allEnemies[i]);
+            }
+        }
+        if (combatants.Count > 0)
+        {
+            combatants.Add(gameObject);
+            // Move the player to their target square immediately so they don't freeze in between squares
+            transform.position = Vector2.MoveTowards(transform.position, moveTarget, 1f);
+            GameManager.instance.StartTacticalMode(combatants);
+        }
+    }
+
     // Update is called once per frame
     public void Update()
     {
@@ -73,42 +118,8 @@ public class Player : Unit
         // In realtime mode, let the player move freely until they detect an enemy
         if (GameManager.instance.realtime)
         {
-            List<GameObject> allEnemies = GameManager.instance.enemies;
-            List<GameObject> combatants = new List<GameObject>();
-            for (int i = 0; i < allEnemies.Count; i++)
-            {
-                if (Sees(allEnemies[i].GetComponent<Unit>()))
-                {
-                    combatants.Add(allEnemies[i]);
-                }
-            }
-            if (combatants.Count > 0)
-            {
-                combatants.Add(gameObject);
-                GameManager.instance.StartTacticalMode(combatants);
-            }
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                Vector2 currentCoords = new Vector2(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
-                currentPath = pathfinder.FindPath(currentCoords, boardManager.SnapMouseToGrid());
-                moveTarget = currentPath[currentPath.Count - 1];
-                currentPath.RemoveAt(currentPath.Count - 1);
-            }
-
-            if (currentPath != null)
-            {
-                if ((Vector2)transform.position != moveTarget)
-                {
-                    transform.position = Vector2.MoveTowards(transform.position, moveTarget, 10f * Time.deltaTime);
-                }
-                else if (currentPath.Count > 0)
-                {
-                    moveTarget = currentPath[currentPath.Count - 1];
-                    currentPath.RemoveAt(currentPath.Count - 1);
-                }
-            }
-
+            CheckForDetectedEnemies();
+            HandleRealtimePlayerMovement();
         }
 
         if (!GameManager.instance.realtime && takingTurn)

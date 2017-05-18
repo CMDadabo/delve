@@ -12,7 +12,6 @@ public class Unit : MonoBehaviour
 
     public int speed; // ft/sec
     public bool takingTurn;
-
     public Stats stats;
 
     protected Pathfinder pathfinder;
@@ -47,6 +46,10 @@ public class Unit : MonoBehaviour
     protected virtual float GetBrightness()
     {
         return fovManager.GetBrightnessAt(transform.position);
+    }
+
+    protected bool AdjacentTo(Unit unit) {
+        return Vector2.Distance(transform.position, unit.transform.position) < 2f;
     }
 
     public virtual void BeginTurn()
